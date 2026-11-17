@@ -68,6 +68,15 @@
     </div>
 
     <div class="field">
+      <div class="q">Which campus do you worship at? <span class="req">*</span></div>
+      <div class="choices">
+        <label class="choice"><input type="radio" name="campus" value="The Potter's House"><span>The Potter's House</span></label>
+        <label class="choice"><input type="radio" name="campus" value="The Glory Cathedral"><span>The Glory Cathedral</span></label>
+      </div>
+      <div class="err" id="campusErr">Please choose your campus.</div>
+    </div>
+
+    <div class="field">
       <label class="q" for="story">What did God do for you? <span class="req">*</span></label>
       <textarea id="story" placeholder="Write your testimony here…"></textarea>
       <div class="err">Please share what God did for you.</div>
@@ -105,12 +114,15 @@ f.addEventListener('submit',async ev=>{
   const name=$('name'),phone=$('phone'),story=$('story'),vid=f.querySelector('input[name=video]:checked');
   let bad=false;
   [name,phone,story].forEach(el=>{const b=!el.value.trim();flag(el,b);bad=bad||b});
+  const campus=f.querySelector('input[name=campus]:checked');
+  $('campusErr').classList.toggle('show',!campus);bad=bad||!campus;
   $('videoErr').classList.toggle('show',!vid);bad=bad||!vid;
   if(bad)return;
   btn.disabled=true;btn.textContent='Sending…';
   const d=new URLSearchParams();
   d.append('entry.1847120037',name.value.trim());
   d.append('entry.649974245',phone.value.trim());
+  d.append('entry.733465900',campus.value);
   d.append('entry.1087341069',story.value.trim());
   d.append('entry.1585796657',vid.value);
   try{
